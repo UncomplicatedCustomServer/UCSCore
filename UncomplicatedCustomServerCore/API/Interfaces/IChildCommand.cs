@@ -1,0 +1,16 @@
+﻿using CommandSystem;
+using System.Collections.Generic;
+
+namespace UncomplicatedCustomServerCore.API.Interfaces
+{
+    internal interface IChildCommand
+    {
+        public string Name { get; }
+
+        public string Description { get; }
+
+        public string RequiredPermission { get; }
+
+        public bool Executor(List<string> arguments, ICommandSender sender, out string response);
+    }
+}

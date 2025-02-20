@@ -9,7 +9,7 @@ namespace UncomplicatedCustomServerCore.NET
     {
         private static readonly HttpClient httpClient = new()
         {
-            Timeout = new(0, 0, 0, 30)
+            Timeout = new(0, 0, 0, 45)
         };
 
         private readonly string dashboardUri = $"https://{dashboardId}.serverdash.ucserver.it";

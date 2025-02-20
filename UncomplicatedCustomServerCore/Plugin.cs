@@ -2,12 +2,15 @@
 using Exiled.API.Features;
 using HarmonyLib;
 using System;
+using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
+using UncomplicatedCustomServerCore.API.Features;
 using UncomplicatedCustomServerCore.NET;
 
 namespace UncomplicatedCustomServerCore
 {
-    public class Plugin : Plugin<Config>
+    public class Plugin : Plugin<Config, Translations>
     {
         public override string Name => "UncomplicatedCustomServer Core";
 
@@ -23,15 +26,21 @@ namespace UncomplicatedCustomServerCore
 
         internal static Plugin Instance { get; private set; }
 
+        internal static HttpClient HttpClient { get; } = new();
+
         internal static HttpServer HttpServer { get; private set; }
 
         private Client Client;
 
         private Harmony _harmony;
 
+        internal string Id { get; private set; }
+
         public override void OnEnabled()
         {
             Instance = this;
+
+            LoadOrCreateId();
 
             if (Config.PrivateKey.Length < 10)
             {
@@ -61,6 +70,8 @@ namespace UncomplicatedCustomServerCore
             });
 
             base.OnEnabled();
+
+            FeaturesManager.Initialize();
         }
 
         public override void OnDisabled()
@@ -71,6 +82,17 @@ namespace UncomplicatedCustomServerCore
             _harmony = null;
 
             base.OnDisabled();
+        }
+
+        public void LoadOrCreateId()
+        {
+            if (File.Exists(Path.Combine(Paths.Configs, $".ucscore_{Server.Port}")))
+                Id = File.ReadAllText(Path.Combine(Paths.Configs, $".ucscore_{Server.Port}"));
+            else
+            {
+                Id = Guid.NewGuid().ToString();
+                File.WriteAllText(Path.Combine(Paths.Configs, $".ucscore_{Server.Port}"), Id);
+            }
         }
     }
 }
