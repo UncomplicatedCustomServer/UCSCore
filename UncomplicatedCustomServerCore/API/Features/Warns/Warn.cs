@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using UncomplicatedCustomServerCore.Extensions;
@@ -83,10 +84,11 @@ namespace UncomplicatedCustomServerCore.API.Features.Warns
                 Id = await message.Content.ReadAsStringAsync();
 
                 SendPublicWebhook();
+                SendStaffWebhook();
 
                 return true;
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 Log.Error(e);
                 return false;
@@ -95,7 +97,14 @@ namespace UncomplicatedCustomServerCore.API.Features.Warns
 
         internal void SendPublicWebhook()
         {
-            Plugin.HttpClient.GetAsync($"{Endpoints.Webhooks}?warnid={Id}&issuer={IssuerId}&user={UserId}&reason={Reason.Base64Encode()}&title={Plugin.Instance.Translation.WarningWebhookTitle.Base64Encode()}&t=public_warn&id={Plugin.Instance.Config.WarnWebhook.Replace("https://discord.com/api/webhooks/", "").Base64Encode()}");
+            if (Plugin.Instance.Config.WarnWebhook is not null && Plugin.Instance.Config.WarnWebhook.Length > 25 && Plugin.Instance.Config.WarnWebhook.Contains("https://discord.com/api/webhooks/"))
+                Plugin.HttpClient.GetAsync($"{Endpoints.WarnWebhooks}?t=public_warn&id={Plugin.Instance.Config.WarnWebhook.Replace("https://discord.com/api/webhooks/", "").Base64Encode()}&warnid={Id}&issuer={IssuerId}&user={UserId}&reason={Reason.Base64Encode()}&warn_number={List.Count(w => w.UserId == UserId) + 1}{BuildTranslations()}");
+        }
+
+        internal void SendStaffWebhook()
+        {
+            if (Plugin.Instance.Config.StaffWarnWebhook is not null && Plugin.Instance.Config.StaffWarnWebhook.Length > 25 && Plugin.Instance.Config.StaffWarnWebhook.Contains("https://discord.com/api/webhooks/"))
+                Plugin.HttpClient.GetAsync($"{Endpoints.WarnWebhooks}?t=staff_warn&id={Plugin.Instance.Config.StaffWarnWebhook.Replace("https://discord.com/api/webhooks/", "").Base64Encode()}&warnid={Id}&issuer={IssuerId}&user={UserId}&reason={Reason.Base64Encode()}&warn_number={List.Count(w => w.UserId == UserId) + 1}{BuildTranslations()}");
         }
 
         internal async Task<bool> Remove(Player issuer, string reason)
@@ -131,12 +140,25 @@ namespace UncomplicatedCustomServerCore.API.Features.Warns
                 JsonConvert.DeserializeObject<Warn[]>(await Plugin.HttpClient.GetStringAsync($"{Endpoints.Warns}&action=WARN_LIST"));
 
                 return true;
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Log.Error(e);
 
                 return false;
             }
+        }
+
+        private static string BuildTranslations()
+        {
+            string result = string.Empty;
+
+            result += $"&0x01={Plugin.Instance.Translation.WarnWebhookMember.Base64Encode()}";
+            result += $"&0x02={Plugin.Instance.Translation.WarnWebhookReason.Base64Encode()}";
+            result += $"&0x03={Plugin.Instance.Translation.WarnWebhookTitle.Base64Encode()}";
+            result += $"&0x04={Plugin.Instance.Translation.WarnWebhookWarnId.Base64Encode()}";
+
+            return result;
         }
     }
 }

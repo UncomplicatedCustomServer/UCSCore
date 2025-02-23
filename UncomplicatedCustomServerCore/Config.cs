@@ -50,5 +50,9 @@ namespace UncomplicatedCustomServerCore
 
         [Description("The warn webhook (staff one)")]
         public string StaffWarnWebhook { get; set; } = "https://discord.com/api/webhooks/...";
+
+        public string BanWebhook { get; set; } = "https://discord.com/api/webhooks/...";
+
+        public string StaffBanWebhook { get; set; } = "https://discord.com/api/webhooks/...";
     }
 }

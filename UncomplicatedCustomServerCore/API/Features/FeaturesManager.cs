@@ -1,4 +1,5 @@
-﻿using UncomplicatedCustomServerCore.API.Features.Warns;
+﻿using UncomplicatedCustomServerCore.API.Features.Bans;
+using UncomplicatedCustomServerCore.API.Features.Warns;
 
 namespace UncomplicatedCustomServerCore.API.Features
 {
@@ -7,6 +8,7 @@ namespace UncomplicatedCustomServerCore.API.Features
         public static async void Initialize()
         {
             await Warn.Syncronize();
+            await Ban.Syncronize();
         }
     }
 }

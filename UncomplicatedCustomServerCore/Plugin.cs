@@ -2,10 +2,13 @@
 using Exiled.API.Features;
 using HarmonyLib;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using UncomplicatedCustomServerCore.API.Features;
+using UncomplicatedCustomServerCore.Commands.Warn;
+using UncomplicatedCustomServerCore.Events;
 using UncomplicatedCustomServerCore.NET;
 
 namespace UncomplicatedCustomServerCore
@@ -34,6 +37,8 @@ namespace UncomplicatedCustomServerCore
 
         private Harmony _harmony;
 
+        private readonly List<ICustomEventHandler> _events = [new ServerEvents(), new PlayerEvents()];
+
         internal string Id { get; private set; }
 
         public override void OnEnabled()
@@ -56,6 +61,9 @@ namespace UncomplicatedCustomServerCore
                 return;
             }
 
+            foreach (ICustomEventHandler ev in _events)
+                ev.OnEnabled();
+
             _harmony = new($"ucs.ucscore-{DateTime.Now.Ticks}");
             _harmony.PatchAll();
 
@@ -76,10 +84,13 @@ namespace UncomplicatedCustomServerCore
 
         public override void OnDisabled()
         {
-            Instance = null;
+            foreach (ICustomEventHandler ev in _events)
+                ev.OnDisabled();
             
             _harmony.UnpatchAll();
             _harmony = null;
+
+            Instance = null;
 
             base.OnDisabled();
         }

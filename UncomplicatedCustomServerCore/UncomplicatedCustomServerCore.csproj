@@ -76,6 +76,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\Features\Bans\Ban.cs" />
     <Compile Include="API\Features\Endpoints.cs" />
     <Compile Include="API\Features\FeaturesManager.cs" />
     <Compile Include="API\Features\Warns\Warn.cs" />
@@ -85,8 +86,12 @@
     <Compile Include="Commands\Warn\List.cs" />
     <Compile Include="Commands\Warn\Remove.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="Events\ICustomEventHandler.cs" />
+    <Compile Include="Events\PlayerEvents.cs" />
+    <Compile Include="Events\ServerEvents.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Extensions\TaskExtension.cs" />
+    <Compile Include="Extensions\TimeSpanExtension.cs" />
     <Compile Include="Integrations\UCR.cs" />
     <Compile Include="NET\Client.cs" />
     <Compile Include="NET\HttpServer.cs" />
