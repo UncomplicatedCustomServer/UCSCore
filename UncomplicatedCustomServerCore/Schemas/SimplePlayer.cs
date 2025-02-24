@@ -1,10 +1,14 @@
 ﻿using Exiled.API.Features;
+using Newtonsoft.Json;
 using PlayerRoles;
 
 namespace UncomplicatedCustomServerCore.Schemas
 {
     internal class SimplePlayer(Player player)
     {
+        [JsonIgnore]
+        internal readonly Player player = player;
+
         public string Nickname { get; } = player.Nickname;
 
         public string Displayname { get; } = player.DisplayNickname;

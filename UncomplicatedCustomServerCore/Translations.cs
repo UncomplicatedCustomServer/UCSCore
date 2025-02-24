@@ -28,13 +28,10 @@ namespace UncomplicatedCustomServerCore
         [Description("The warn broadcast message. Available placeholders: %reason%, %warn_count%, %warn_author%")]
         public string WarnBroadcast { get; set; } = "You have been <b><color=red>WARNED</color></b>!\nReason: %reason%";
 
-        [Description("The title of the warn webhook")]
         public string WarnWebhookTitle { get; set; } = "NEW WARN ADDED";
 
-        [Description("The 'member' subtitle of the warn webhook")]
         public string WarnWebhookMember { get; set; } = "Member";
 
-        [Description("The 'reason' subtitle of the warn webhook")]
         public string WarnWebhookReason { get; set; } = "Reason";
 
         public string WarnWebhookWarnId { get; set; } = "Warn ID";

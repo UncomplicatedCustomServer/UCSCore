@@ -14,7 +14,11 @@ namespace UncomplicatedCustomServerCore.API.Features.Bans
         /// <summary>
         /// Gets a list of every warn
         /// </summary>
+        [JsonIgnore]
         public static readonly List<Ban> List = [];
+
+        [JsonIgnore]
+        public static bool IsEnabled => Plugin.Instance.Config.EnableModerationSystem;
 
         [JsonProperty("id")]
         public string Id { get; private set; }
@@ -40,6 +44,7 @@ namespace UncomplicatedCustomServerCore.API.Features.Bans
         [JsonProperty("duration")]
         public int Duration { get; }
 
+        [JsonIgnore]
         private bool Sync { get; set; } = false;
 
         [JsonConstructor]

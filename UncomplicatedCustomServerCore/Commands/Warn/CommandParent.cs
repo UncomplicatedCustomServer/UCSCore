@@ -29,6 +29,12 @@ namespace UncomplicatedCustomServerCore.Commands.Warn
 
         protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
+            if (!API.Features.Warns.Warn.IsEnabled)
+            {
+                response = "The UCS Moderation System is <b>DISABLED</b> from the config!";
+                return false;
+            }
+
             if (arguments.Count() == 0)
             {
                 // Help page

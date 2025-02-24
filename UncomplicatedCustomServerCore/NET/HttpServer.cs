@@ -54,6 +54,8 @@ namespace UncomplicatedCustomServerCore.NET
             }
         }
 
+        public void Stop() => httpListener.Stop();
+
         private bool Authenticate(HttpListenerContext context)
         {
             if (context.Request.RawUrl is "/ping" && Plugin.Instance.Config.AllowUnauthenticatedPing)

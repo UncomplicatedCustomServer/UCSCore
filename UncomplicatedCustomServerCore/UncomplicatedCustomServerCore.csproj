@@ -77,10 +77,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Features\Bans\Ban.cs" />
+    <Compile Include="API\Features\Console\LogEntry.cs" />
     <Compile Include="API\Features\Endpoints.cs" />
     <Compile Include="API\Features\FeaturesManager.cs" />
+    <Compile Include="API\Features\PlayerStats\StatsTracker.cs" />
+    <Compile Include="API\Features\PlayerStats\TimeManager.cs" />
+    <Compile Include="API\Features\Round\Messages\MapUpdateMessage.cs" />
+    <Compile Include="API\Features\Round\Messages\MessageBase.cs" />
+    <Compile Include="API\Features\Round\Messages\PlayerUpdateMessage.cs" />
+    <Compile Include="API\Features\Round\Messages\RoundUpdateMessage.cs" />
+    <Compile Include="API\Features\Round\RoundActionType.cs" />
     <Compile Include="API\Features\Warns\Warn.cs" />
+    <Compile Include="API\Features\WebSocket\ConsoleSocketService.cs" />
+    <Compile Include="API\Features\WebSocket\RoundSocketService.cs" />
+    <Compile Include="API\Features\WebSocket\SocketServer.cs" />
     <Compile Include="API\Interfaces\IChildCommand.cs" />
+    <Compile Include="API\Utilities\ChangeDetector.cs" />
     <Compile Include="Commands\Warn\Add.cs" />
     <Compile Include="Commands\Warn\CommandParent.cs" />
     <Compile Include="Commands\Warn\List.cs" />
@@ -89,17 +101,29 @@
     <Compile Include="Events\ICustomEventHandler.cs" />
     <Compile Include="Events\PlayerEvents.cs" />
     <Compile Include="Events\ServerEvents.cs" />
+    <Compile Include="Extensions\PlayerExtension.cs" />
+    <Compile Include="Extensions\SimpleModelsExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Extensions\TaskExtension.cs" />
     <Compile Include="Extensions\TimeSpanExtension.cs" />
     <Compile Include="Integrations\UCR.cs" />
     <Compile Include="NET\Client.cs" />
     <Compile Include="NET\HttpServer.cs" />
+    <Compile Include="Patches\PlayerEventPatch.cs" />
+    <Compile Include="Patches\ServerConsoleLogs.cs" />
     <Compile Include="Patches\ServerNamePatch.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schemas\CompletePlayer.cs" />
+    <Compile Include="Schemas\SerializedDoor.cs" />
+    <Compile Include="Schemas\SerializedLift.cs" />
+    <Compile Include="Schemas\SerializedPlayer.cs" />
+    <Compile Include="Schemas\SimpleDoor.cs" />
+    <Compile Include="Schemas\SimpleLift.cs" />
     <Compile Include="Schemas\SimplePlayer.cs" />
     <Compile Include="Schemas\GenericStats.cs" />
+    <Compile Include="Schemas\SimpleRoom.cs" />
+    <Compile Include="Schemas\SimpleVector.cs" />
     <Compile Include="Translations.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +132,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="WebSocketSharp-netstandard">
+      <Version>1.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />

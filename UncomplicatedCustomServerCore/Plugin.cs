@@ -7,7 +7,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using UncomplicatedCustomServerCore.API.Features;
-using UncomplicatedCustomServerCore.Commands.Warn;
+using UncomplicatedCustomServerCore.API.Features.WebSocket;
 using UncomplicatedCustomServerCore.Events;
 using UncomplicatedCustomServerCore.NET;
 
@@ -32,6 +32,8 @@ namespace UncomplicatedCustomServerCore
         internal static HttpClient HttpClient { get; } = new();
 
         internal static HttpServer HttpServer { get; private set; }
+
+        internal static SocketServer SocketServer { get; set; }
 
         private Client Client;
 
@@ -86,6 +88,9 @@ namespace UncomplicatedCustomServerCore
         {
             foreach (ICustomEventHandler ev in _events)
                 ev.OnDisabled();
+
+            HttpServer?.Stop();
+            SocketServer?.Stop();
             
             _harmony.UnpatchAll();
             _harmony = null;

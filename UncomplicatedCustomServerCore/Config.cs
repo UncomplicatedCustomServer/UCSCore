@@ -14,6 +14,9 @@ namespace UncomplicatedCustomServerCore
         [Description("The port of the HTTP server that will communicate with the Dashboard")]
         public int Port { get; set; } = 7080;
 
+        [Description("The port of the WebSocket server that will communicate with clients. Needed for the remote console and round info features")]
+        public int SocketPort { get; set; } = 9985;
+
         [Description("The dashboard name. For example, for the dashboard test.serverdash.ucserver.it the Id would be test")]
         public string DashboardId { get; set; } = "";
 
@@ -27,7 +30,10 @@ namespace UncomplicatedCustomServerCore
         public bool AllowUnauthenticatedPing { get; set; } = true;
 
         // MODERATION SYSTEM
-        [Description("UCS MODERATION SYSTEM\n\n# The duration of a warn in seconds. 1440min is a day")]
+        [Description("UCS MODERATION SYSTEM\n\n# Whether or not the moderation system (with ban logs) should be enabled")]
+        public bool EnableModerationSystem { get; set; } = true;
+
+        [Description("The duration of a warn in seconds. 86400min are 24 hours")]
         public int WarnDuration { get; set; } = 86400;
 
         [Description("The duration of the warn broadcast")]
@@ -51,8 +57,24 @@ namespace UncomplicatedCustomServerCore
         [Description("The warn webhook (staff one)")]
         public string StaffWarnWebhook { get; set; } = "https://discord.com/api/webhooks/...";
 
+        [Description("The ban webhook (public one)")]
         public string BanWebhook { get; set; } = "https://discord.com/api/webhooks/...";
 
+        [Description("The ban webhook (staff one)")]
         public string StaffBanWebhook { get; set; } = "https://discord.com/api/webhooks/...";
+
+        // PLAYER STATS SYSTEM
+        [Description("UCS PLAYER STAT SYSTEM\n\n# Whether or not the player stat system should be enabled")]
+        public bool EnablePlayerStatSystem { get; set; } = true;
+
+        [Description("The interval (in minutes) between the stats push to our central servers")]
+        public int StatsPushInterval { get; set; } = 1;
+
+        // REMOTE CONSOLE SYSTEM
+        [Description("UCS REMOTE CONSOLE SYSTEM\n\n# Wheter or not the remote console system should be enabled")]
+        public bool EnableRemoteConsoleSystem { get; set; } = true;
+
+        [Description("UCS REMOTE ROUND VIEW SYSTEM\n\n# Wheter or not the remote round viewer system should be enabled")]
+        public bool EnableRemoteRoundViewSystem { get; set; } = true;
     }
 }

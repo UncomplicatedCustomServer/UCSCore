@@ -9,5 +9,9 @@
         public static string BanWebhooks => $"https://api.ucserver.it/main/webhooks/ban_webhook";
 
         public static string Bans => $"https://api.ucserver.it/main/ucscore/bans?id={Plugin.Instance.Id}";
+
+        public static string PlayerTime => $"https://api.ucserver.it/main/ucscore/playtime?id={Plugin.Instance.Id}";
+
+        public static string PlayerStats => $"https://api.ucserver.it/main/ucscore/stats?id={Plugin.Instance.Id}";
     }
 }

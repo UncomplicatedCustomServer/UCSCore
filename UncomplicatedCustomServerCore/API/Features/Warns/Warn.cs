@@ -14,7 +14,11 @@ namespace UncomplicatedCustomServerCore.API.Features.Warns
         /// <summary>
         /// Gets a list of every warn
         /// </summary>
+        [JsonIgnore]
         public static readonly List<Warn> List = [];
+
+        [JsonIgnore]
+        public static bool IsEnabled => Plugin.Instance.Config.EnableModerationSystem;
 
         [JsonProperty("id")]
         public string Id { get; private set; }
@@ -37,6 +41,7 @@ namespace UncomplicatedCustomServerCore.API.Features.Warns
         [JsonProperty("reason")]
         public string Reason { get; }
 
+        [JsonIgnore]
         private bool Sync { get; set; } = false;
 
         [JsonConstructor]
