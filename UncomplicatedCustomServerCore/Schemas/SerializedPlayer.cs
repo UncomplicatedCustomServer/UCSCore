@@ -9,7 +9,7 @@ namespace UncomplicatedCustomServerCore.Schemas
     {
         public new string Team { get; } = player.Role.Team.ToString();
 
-        public new string Role { get; } = player.Role.Name;
+        public new string Role { get; } = player.Role.Type.ToString();
 
         public new string Zone { get; } = player.Zone.ToString();
 

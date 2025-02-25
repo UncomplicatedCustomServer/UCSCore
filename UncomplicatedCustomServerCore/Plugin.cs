@@ -67,6 +67,7 @@ namespace UncomplicatedCustomServerCore
                 ev.OnEnabled();
 
             _harmony = new($"ucs.ucscore-{DateTime.Now.Ticks}");
+            Harmony.DEBUG = true;
             _harmony.PatchAll();
 
             Client = new(Config.DashboardId);

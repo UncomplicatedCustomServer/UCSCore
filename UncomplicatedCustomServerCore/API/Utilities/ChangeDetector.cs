@@ -17,6 +17,8 @@ namespace UncomplicatedCustomServerCore.API.Utilities
 
         public static List<SimpleLift> RefLifts { get; } = [];
 
+        public static List<SimplePickup> RefPickups { get; } = [];
+
         public static bool DoEnableTimer { get; internal set; } = true;
 
         public static readonly int UpdateInterval = 3500;
@@ -35,6 +37,9 @@ namespace UncomplicatedCustomServerCore.API.Utilities
 
             foreach (SimpleLift lift in partialMessage.Lifts)
                 RefLifts.Add(lift);
+
+            foreach (SimplePickup pickup in partialMessage.Pickups)
+                RefPickups.Add(pickup);
 
             Task.Run(async delegate
             {
@@ -64,6 +69,10 @@ namespace UncomplicatedCustomServerCore.API.Utilities
                     foreach (SimpleLift lift in partialMessage.Lifts)
                         if (!lift.HasChanged())
                             partialMessage.Lifts.RemoveAll(l => l.Name == lift.Name && l.Group == lift.Group.ToString());
+
+                    foreach (SimplePickup pickup in partialMessage.Pickups)
+                        if (!pickup.HasChanged())
+                            partialMessage.Pickups.RemoveAll(p => p.Serial == pickup.Serial);
 
                     foreach (CompletePlayer player in RefPlayers)
                         if (player.HasChanged())

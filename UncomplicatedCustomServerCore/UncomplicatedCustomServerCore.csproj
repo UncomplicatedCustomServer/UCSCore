@@ -57,6 +57,10 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\UncomplicatedCustomRoles\UncomplicatedCustomRoles\bin\x64\Release\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
+    <Reference Include="Assembly-CSharp-Publicized, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\EXILED_REF\References\Assembly-CSharp-Publicized.dll</HintPath>
+    </Reference>
     <Reference Include="Mirror-Publicized">
       <HintPath>..\..\UncomplicatedCustomRoles\UncomplicatedCustomRoles\bin\x64\Release\Mirror-Publicized.dll</HintPath>
     </Reference>
@@ -71,8 +75,17 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\UncomplicatedCustomRoles\UncomplicatedCustomRoles\bin\x64\Debug\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.DSPGraphModule">
+      <HintPath>..\..\..\..\Desktop\EXILED_REF\References\UnityEngine.DSPGraphModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>..\..\..\..\Desktop\EXILED_REF\References\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
       <HintPath>..\..\UncomplicatedCustomRoles\UncomplicatedCustomRoles\bin\x64\Release\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\..\..\Desktop\EXILED_REF\References\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -117,9 +130,12 @@
     <Compile Include="Schemas\CompletePlayer.cs" />
     <Compile Include="Schemas\SerializedDoor.cs" />
     <Compile Include="Schemas\SerializedLift.cs" />
+    <Compile Include="Schemas\SerializedPickup.cs" />
     <Compile Include="Schemas\SerializedPlayer.cs" />
+    <Compile Include="Schemas\SimpleColor.cs" />
     <Compile Include="Schemas\SimpleDoor.cs" />
     <Compile Include="Schemas\SimpleLift.cs" />
+    <Compile Include="Schemas\SimplePickup.cs" />
     <Compile Include="Schemas\SimplePlayer.cs" />
     <Compile Include="Schemas\GenericStats.cs" />
     <Compile Include="Schemas\SimpleRoom.cs" />

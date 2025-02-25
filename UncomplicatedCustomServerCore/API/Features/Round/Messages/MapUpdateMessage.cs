@@ -1,6 +1,6 @@
 ﻿using Exiled.API.Features;
 using Exiled.API.Features.Doors;
-using MapGeneration;
+using Exiled.API.Features.Pickups;
 using System.Collections.Generic;
 using System.Linq;
 using UncomplicatedCustomServerCore.Schemas;
@@ -17,6 +17,8 @@ namespace UncomplicatedCustomServerCore.API.Features.Round.Messages
 
         public List<SerializedLift> Lifts { get; } = [];
 
+        public List<SerializedPickup> Pickups { get; } = [];
+
         public static MapUpdateMessage PushAll()
         {
             MapUpdateMessage message = new();
@@ -30,10 +32,13 @@ namespace UncomplicatedCustomServerCore.API.Features.Round.Messages
             foreach (Lift lift in Lift.List)
                 message.Lifts.Add(new(lift));
 
+            foreach (Pickup pickup in Pickup.List)
+                message.Pickups.Add(new(pickup));
+
             return message;
         }
 
-        public static MapUpdateMessage PushSpecific(IEnumerable<Room> rooms, IEnumerable<Door> doors, IEnumerable<Lift> lifts)
+        public static MapUpdateMessage PushSpecific(IEnumerable<Room> rooms, IEnumerable<Door> doors, IEnumerable<Lift> lifts, IEnumerable<Pickup> pickups)
         {
             MapUpdateMessage message = new();
 
@@ -45,6 +50,9 @@ namespace UncomplicatedCustomServerCore.API.Features.Round.Messages
 
             foreach (Lift lift in lifts)
                 message.Lifts.Add(new(lift));
+
+            foreach (Pickup pickup in pickups)
+                message.Pickups.Add(new(pickup));
 
             return message;
         }
@@ -72,6 +80,15 @@ namespace UncomplicatedCustomServerCore.API.Features.Round.Messages
             MapUpdateMessage message = new();
 
             message.Lifts.Add(new(lift));
+
+            return message;
+        }
+
+        public static MapUpdateMessage PushSingle(Pickup pickup)
+        {
+            MapUpdateMessage message = new();
+
+            message.Pickups.Add(new(pickup));
 
             return message;
         }

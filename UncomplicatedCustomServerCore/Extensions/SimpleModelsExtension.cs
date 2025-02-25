@@ -61,5 +61,19 @@ namespace UncomplicatedCustomServerCore.Extensions
 
             return !ChangeDetector.Compare(oldPlayer, player);
         }
+
+        public static bool HasChanged(this SimplePickup pickup)
+        {
+            SimplePickup oldPickup = ChangeDetector.RefPickups.FirstOrDefault(p => p.Serial == pickup.Serial);
+
+            ChangeDetector.RefPickups.Add(pickup);
+
+            if (oldPickup is null)
+                return false;
+
+            ChangeDetector.RefPickups.Remove(oldPickup);
+
+            return !ChangeDetector.Compare(oldPickup, pickup);
+        }
     }
 }

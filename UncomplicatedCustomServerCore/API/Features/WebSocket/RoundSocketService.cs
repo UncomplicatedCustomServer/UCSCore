@@ -40,6 +40,8 @@ namespace UncomplicatedCustomServerCore.API.Features.WebSocket
                     Authed.Add(this);
                     SendAsync(EncodeMessage(MapUpdateMessage.PushAll()), delegate { });
                     SendAsync(EncodeMessage(RoundUpdateMessage.Create()), delegate { });
+                    foreach (Player player in Player.List)
+                        SendAsync(EncodeMessage(PlayerUpdateMessage.Create(player)), delegate { });
                 }
                 else
                     Context.WebSocket.Close();
