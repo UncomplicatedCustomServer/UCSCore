@@ -12,6 +12,8 @@ namespace UncomplicatedCustomServerCore.Schemas
 
         public string Name { get; } = lift.Name;
 
+        public string Identifier { get; } = $"{lift.Group}.{lift.Name}.{lift.Type}";
+
         public ElevatorGroup Group { get; } = lift.Group;
 
         public SimpleVector Position { get; } = new(lift.Position);

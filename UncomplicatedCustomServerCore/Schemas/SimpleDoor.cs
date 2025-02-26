@@ -1,6 +1,8 @@
 ﻿using Exiled.API.Enums;
+using Exiled.API.Features;
 using Exiled.API.Features.Doors;
 using Newtonsoft.Json;
+using UncomplicatedCustomServerCore.Extensions;
 
 namespace UncomplicatedCustomServerCore.Schemas
 {
@@ -9,7 +11,7 @@ namespace UncomplicatedCustomServerCore.Schemas
         [JsonIgnore]
         internal readonly Door door = door;
 
-        public int Identifier { get; } = door.InstanceId;
+        public string Identifier { get; } = new SimpleVector(door.Position).ToString().Base64Encode();
 
         public SimpleVector Position { get; } = new(door.Position);
 

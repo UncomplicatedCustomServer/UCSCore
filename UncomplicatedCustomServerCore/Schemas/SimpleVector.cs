@@ -20,5 +20,7 @@ namespace UncomplicatedCustomServerCore.Schemas
             quaternion.ToAngleAxis(out float angle, out Vector3 axis);
             return new(axis.x, axis.y, axis.z, angle);
         }
+
+        public readonly override string ToString() => $"SVector({x},{y},{z},{angle})";
     }
 }

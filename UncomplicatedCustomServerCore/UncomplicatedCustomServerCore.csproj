@@ -57,10 +57,6 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\UncomplicatedCustomRoles\UncomplicatedCustomRoles\bin\x64\Release\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp-Publicized, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\EXILED_REF\References\Assembly-CSharp-Publicized.dll</HintPath>
-    </Reference>
     <Reference Include="Mirror-Publicized">
       <HintPath>..\..\UncomplicatedCustomRoles\UncomplicatedCustomRoles\bin\x64\Release\Mirror-Publicized.dll</HintPath>
     </Reference>
@@ -75,17 +71,11 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\UncomplicatedCustomRoles\UncomplicatedCustomRoles\bin\x64\Debug\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.DSPGraphModule">
-      <HintPath>..\..\..\..\Desktop\EXILED_REF\References\UnityEngine.DSPGraphModule.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.ImageConversionModule">
       <HintPath>..\..\..\..\Desktop\EXILED_REF\References\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
       <HintPath>..\..\UncomplicatedCustomRoles\UncomplicatedCustomRoles\bin\x64\Release\UnityEngine.PhysicsModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\..\Desktop\EXILED_REF\References\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +89,8 @@
     <Compile Include="API\Features\Round\Messages\MessageBase.cs" />
     <Compile Include="API\Features\Round\Messages\PlayerUpdateMessage.cs" />
     <Compile Include="API\Features\Round\Messages\RoundUpdateMessage.cs" />
+    <Compile Include="API\Features\Round\RemoteActionType.cs" />
+    <Compile Include="API\Features\Round\RemoteMessages\RemoteMessageBase.cs" />
     <Compile Include="API\Features\Round\RoundActionType.cs" />
     <Compile Include="API\Features\Warns\Warn.cs" />
     <Compile Include="API\Features\WebSocket\ConsoleSocketService.cs" />

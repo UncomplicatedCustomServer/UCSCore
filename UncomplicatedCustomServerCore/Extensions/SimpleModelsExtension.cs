@@ -22,7 +22,7 @@ namespace UncomplicatedCustomServerCore.Extensions
 
         public static bool HasChanged(this SimpleRoom room)
         {
-            SimpleRoom oldRoom = ChangeDetector.RefRooms.FirstOrDefault(r => r.Name == room.Name);
+            SimpleRoom oldRoom = ChangeDetector.RefRooms.FirstOrDefault(r => r.Identifier == room.Identifier);
 
             ChangeDetector.RefRooms.Add(room);
 
@@ -36,7 +36,7 @@ namespace UncomplicatedCustomServerCore.Extensions
 
         public static bool HasChanged(this SimpleLift lift)
         {
-            SimpleLift oldLift = ChangeDetector.RefLifts.FirstOrDefault(l => l.Name == lift.Name);
+            SimpleLift oldLift = ChangeDetector.RefLifts.FirstOrDefault(l => l.Identifier == lift.Identifier);
 
             ChangeDetector.RefLifts.Add(lift);
 

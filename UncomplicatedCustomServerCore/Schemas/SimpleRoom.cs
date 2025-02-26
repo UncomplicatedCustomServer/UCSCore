@@ -2,6 +2,7 @@
 using Exiled.API.Features;
 using MapGeneration;
 using Newtonsoft.Json;
+using UncomplicatedCustomServerCore.Extensions;
 
 namespace UncomplicatedCustomServerCore.Schemas
 {
@@ -10,7 +11,7 @@ namespace UncomplicatedCustomServerCore.Schemas
         [JsonIgnore]
         internal readonly Room room = room;
 
-        public string Name { get; } = room.Identifier.name;
+        public string Identifier { get; } = new SimpleVector(room.Position).ToString().Base64Encode();
 
         public SimpleVector Position { get; } = new(room.Position);
 
