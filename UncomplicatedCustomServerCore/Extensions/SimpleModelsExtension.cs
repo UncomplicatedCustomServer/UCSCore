@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Exiled.API.Features;
+using System.Linq;
 using UncomplicatedCustomServerCore.API.Utilities;
 using UncomplicatedCustomServerCore.Schemas;
 
@@ -13,7 +14,7 @@ namespace UncomplicatedCustomServerCore.Extensions
             ChangeDetector.RefDoors.Add(door);
 
             if (oldDoor is null)
-                return false;
+                return true;
 
             ChangeDetector.RefDoors.Remove(oldDoor);
 
@@ -27,7 +28,7 @@ namespace UncomplicatedCustomServerCore.Extensions
             ChangeDetector.RefRooms.Add(room);
 
             if (oldRoom is null)
-                return false;
+                return true;
 
             ChangeDetector.RefRooms.Remove(oldRoom);
 
@@ -41,21 +42,21 @@ namespace UncomplicatedCustomServerCore.Extensions
             ChangeDetector.RefLifts.Add(lift);
 
             if (oldLift is null)
-                return false;
+                return true;
 
             ChangeDetector.RefLifts.Remove(oldLift);
 
             return !ChangeDetector.Compare(oldLift, lift);
         }
 
-        public static bool HasChanged(this CompletePlayer player)
+        public static bool HasChanged(this SerializedPlayer player)
         {
-            CompletePlayer oldPlayer = ChangeDetector.RefPlayers.FirstOrDefault(p => p.Id == player.Id);
+            SerializedPlayer oldPlayer = ChangeDetector.RefPlayers.FirstOrDefault(p => p.Id == player.Id);
 
             ChangeDetector.RefPlayers.Add(player);
 
             if (oldPlayer is null)
-                return false;
+                return true;
 
             ChangeDetector.RefPlayers.Remove(oldPlayer);
 
@@ -69,7 +70,7 @@ namespace UncomplicatedCustomServerCore.Extensions
             ChangeDetector.RefPickups.Add(pickup);
 
             if (oldPickup is null)
-                return false;
+                return true;
 
             ChangeDetector.RefPickups.Remove(oldPickup);
 

@@ -1,9 +1,13 @@
 ﻿using Exiled.API.Features.Pickups;
+using Newtonsoft.Json;
 
 namespace UncomplicatedCustomServerCore.Schemas
 {
     internal class SimplePickup(Pickup pickup)
     {
+        [JsonIgnore]
+        internal readonly Pickup pickup = pickup;
+
         public ItemType Type { get; } = pickup.Type;
 
         public int Serial { get; } = pickup.Serial;

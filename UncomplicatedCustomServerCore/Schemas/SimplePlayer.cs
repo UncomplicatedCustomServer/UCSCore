@@ -1,6 +1,8 @@
 ﻿using Exiled.API.Features;
 using Newtonsoft.Json;
 using PlayerRoles;
+using System.Linq;
+using UncomplicatedCustomServerCore.API.Features.Warns;
 
 namespace UncomplicatedCustomServerCore.Schemas
 {
@@ -20,5 +22,7 @@ namespace UncomplicatedCustomServerCore.Schemas
         public int Id { get; } = player.Id;
 
         public RoleTypeId Role { get; } = player.Role.Type;
+
+        public int WarnCount { get; } = Warn.List.Count(w => w.UserId == player.UserId);
     }
 }

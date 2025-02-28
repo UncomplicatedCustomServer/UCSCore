@@ -10,6 +10,8 @@ namespace UncomplicatedCustomServerCore.Schemas
 {
     internal class CompletePlayer(Player player) : SimplePlayer(player)
     {
+        public string RoleColor { get; } = player.Role.Color.ToHex();
+
         public Team Team { get; } = player.Role.Team;
 
         public ZoneType Zone { get; } = player.Zone;
@@ -25,6 +27,8 @@ namespace UncomplicatedCustomServerCore.Schemas
         public SimpleVector Position { get; } = new SimpleVector(player.Position);
 
         public SimpleVector Rotation { get; } = SimpleVector.FromQuaternion(player.Rotation);
+
+        public Badge? Badge { get; } = player.RankName is not null && player.RankColor is not null && player.RankName.Length > 0 ? new Badge(player.RankName, player.RankColor) : null;
 
         public float Health { get; } = player.Health;
 

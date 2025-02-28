@@ -2,6 +2,8 @@
 {
     internal enum RemoteActionType
     {
-        PlayerTeleport
+        Teleport,
+        HealPlayer,
+        KillPlayer
     }
 }

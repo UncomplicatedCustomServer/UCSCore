@@ -4,6 +4,7 @@
     {
         PlayerUpdate,
         MapUpdate,
-        RoundUpdate
+        RoundUpdate,
+        PlayerDisconnect
     }
 }

@@ -18,5 +18,7 @@ namespace UncomplicatedCustomServerCore.Schemas
         public new string[] Inventory { get; } = player.Inventory?.UserInventory.Items.Values.Select(i => i.ItemTypeId.ToString()).ToArray() ?? [];
 
         public new string? CurrentItem { get; } = player.CurrentItem?.Type.ToString();
+
+        public float HealthRatio { get; } = (player.Health / player.MaxHealth)*100;
     }
 }

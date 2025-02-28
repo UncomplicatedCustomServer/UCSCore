@@ -1,6 +1,9 @@
 ﻿using Exiled.Events.EventArgs.Player;
 using System;
+using System.Linq;
 using UncomplicatedCustomServerCore.API.Features.Bans;
+using UncomplicatedCustomServerCore.API.Features.Round.Messages;
+using UncomplicatedCustomServerCore.API.Utilities;
 using UncomplicatedCustomServerCore.Extensions;
 using EventHandler = Exiled.Events.Handlers.Player;
 
@@ -15,6 +18,9 @@ namespace UncomplicatedCustomServerCore.Events
 
             if (Plugin.Instance.Config.EnablePlayerStatSystem)
                 EventHandler.Died += OnDied;
+
+            EventHandler.Verified += OnVerified;
+            EventHandler.Left += OnLeft;
         }
 
         public void OnDisabled()
@@ -24,6 +30,23 @@ namespace UncomplicatedCustomServerCore.Events
 
             if (Plugin.Instance.Config.EnablePlayerStatSystem)
                 EventHandler.Died -= OnDied;
+
+            EventHandler.Verified -= OnVerified;
+            EventHandler.Left -= OnLeft;
+        }
+
+        public void OnVerified(VerifiedEventArgs verified)
+        {
+            if (ChangeDetector.RefPlayers.Count(p => p.SteamId == verified.Player.UserId) > 0)
+                return;
+
+            ChangeDetector.RefPlayers.Add(new(verified.Player));
+        }
+
+        public void OnLeft(LeftEventArgs left)
+        {
+            new PlayerDisconnectMessage(left.Player.UserId).Send();
+            ChangeDetector.RefPlayers.RemoveAll(p => p.SteamId == left.Player.UserId);
         }
 
         public void OnDied(DiedEventArgs died)

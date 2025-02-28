@@ -87,11 +87,16 @@
     <Compile Include="API\Features\PlayerStats\TimeManager.cs" />
     <Compile Include="API\Features\Round\Messages\MapUpdateMessage.cs" />
     <Compile Include="API\Features\Round\Messages\MessageBase.cs" />
+    <Compile Include="API\Features\Round\Messages\PlayerDisconnectMessage.cs" />
     <Compile Include="API\Features\Round\Messages\PlayerUpdateMessage.cs" />
     <Compile Include="API\Features\Round\Messages\RoundUpdateMessage.cs" />
     <Compile Include="API\Features\Round\RemoteActionType.cs" />
+    <Compile Include="API\Features\Round\RemoteMessages\RemoteHealPlayerMessage.cs" />
+    <Compile Include="API\Features\Round\RemoteMessages\RemoteKillPlayerMessage.cs" />
     <Compile Include="API\Features\Round\RemoteMessages\RemoteMessageBase.cs" />
+    <Compile Include="API\Features\Round\RemoteMessages\RemoteTeleportMessage.cs" />
     <Compile Include="API\Features\Round\RoundActionType.cs" />
+    <Compile Include="API\Features\Round\SimplifiedTargetType.cs" />
     <Compile Include="API\Features\Warns\Warn.cs" />
     <Compile Include="API\Features\WebSocket\ConsoleSocketService.cs" />
     <Compile Include="API\Features\WebSocket\RoundSocketService.cs" />

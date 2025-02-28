@@ -4,7 +4,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UncomplicatedCustomServerCore.API.Features.Round.Messages;
+using UncomplicatedCustomServerCore.API.Features.Round.RemoteMessages;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 
@@ -22,7 +24,7 @@ namespace UncomplicatedCustomServerCore.API.Features.WebSocket
         {
             try
             {
-                foreach (RoundSocketService client in Authed)
+                foreach (RoundSocketService client in Authed.Where(s => s.Context.WebSocket.IsAlive))
                     client.SendAsync(EncodeMessage(message), delegate { });
             }
             catch (Exception e)
@@ -45,6 +47,16 @@ namespace UncomplicatedCustomServerCore.API.Features.WebSocket
                 }
                 else
                     Context.WebSocket.Close();
+            else
+                try
+                {
+                    Log.Info($"Received message: {e.Data}");
+                    RemoteMessageBase.Deserialize(e.Data);
+                }
+                catch (Exception ex)
+                {
+                    Exiled.API.Features.Log.Error($"Failed to handle message: {ex}");
+                }
         }
 
         protected override void OnClose(CloseEventArgs _)
