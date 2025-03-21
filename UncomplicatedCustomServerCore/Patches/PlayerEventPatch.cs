@@ -1,5 +1,6 @@
 ﻿using Exiled.API.Features;
 using Exiled.Events.EventArgs.Interfaces;
+using Exiled.Events.EventArgs.Player;
 using Exiled.Events.Features;
 using HarmonyLib;
 using UncomplicatedCustomServerCore.API.Features.Round.Messages;
@@ -11,6 +12,9 @@ namespace UncomplicatedCustomServerCore.Patches
     {
         public static void Prefix(object arg)
         {
+            if (arg is TriggeringTeslaEventArgs)
+                return;
+
             if (arg is IPlayerEvent pev)
                 HandlePlayerEvent(pev, arg);
 

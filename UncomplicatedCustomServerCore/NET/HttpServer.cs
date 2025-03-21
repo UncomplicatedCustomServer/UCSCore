@@ -67,17 +67,24 @@ namespace UncomplicatedCustomServerCore.NET
 
             if (context.Request.Headers.Get("Authentication") != $"Bearer {Plugin.Instance.Config.PrivateKey}")
             {
-                if (failedChallenges.ContainsKey(context.Request.RemoteEndPoint.Address))
-                    failedChallenges[context.Request.RemoteEndPoint.Address]++;
-                else
-                    failedChallenges.Add(context.Request.RemoteEndPoint.Address, 1);
-
-                Answer(context, "Unhautorized", statusCode: 401);
-
-                if (failedChallenges[context.Request.RemoteEndPoint.Address] >= Plugin.Instance.Config.MaxAuthChallenges)
+                try
                 {
-                    failedChallenges.Remove(context.Request.RemoteEndPoint.Address);
-                    blacklist.Add(context.Request.RemoteEndPoint.Address);
+                    if (failedChallenges.ContainsKey(context.Request.RemoteEndPoint.Address))
+                        failedChallenges[context.Request.RemoteEndPoint.Address]++;
+                    else
+                        failedChallenges.Add(context.Request.RemoteEndPoint.Address, 1);
+
+                    Answer(context, "Unhautorized", statusCode: 401);
+
+                    if (failedChallenges[context.Request.RemoteEndPoint.Address] >= Plugin.Instance.Config.MaxAuthChallenges)
+                    {
+                        failedChallenges.Remove(context.Request.RemoteEndPoint.Address);
+                        blacklist.Add(context.Request.RemoteEndPoint.Address);
+                    }
+                } 
+                catch (Exception e)
+                {
+                    Log.Error(e);
                 }
                 return false;
             }
@@ -105,6 +112,8 @@ namespace UncomplicatedCustomServerCore.NET
 
             if (url[0] == "logs")
                 HandleLogEndpoint(context, url);
+            else if (url[0] == "stats")
+                Answer(context, new GenericStats().Encode(), "application/json");
         }
 
         private void HandleLogEndpoint(HttpListenerContext context, List<string> url)
