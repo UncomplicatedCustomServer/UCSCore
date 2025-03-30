@@ -67,9 +67,6 @@ namespace UncomplicatedCustomServerCore
         [Description("UCS PLAYER STAT SYSTEM\n\n# Whether or not the player stat system should be enabled")]
         public bool EnablePlayerStatSystem { get; set; } = true;
 
-        [Description("The interval (in minutes) between the stats push to our central servers")]
-        public int StatsPushInterval { get; set; } = 1;
-
         // REMOTE CONSOLE SYSTEM
         [Description("UCS REMOTE CONSOLE SYSTEM\n\n# Wheter or not the remote console system should be enabled")]
         public bool EnableRemoteConsoleSystem { get; set; } = true;

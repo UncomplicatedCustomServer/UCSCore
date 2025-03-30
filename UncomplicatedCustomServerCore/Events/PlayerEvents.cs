@@ -1,7 +1,11 @@
-﻿using Exiled.Events.EventArgs.Player;
+﻿using Exiled.API.Features;
+using Exiled.Events.EventArgs.Player;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using UncomplicatedCustomServerCore.API.Features.Bans;
+using UncomplicatedCustomServerCore.API.Features.Overflow;
+using UncomplicatedCustomServerCore.API.Features.PlayerStats;
 using UncomplicatedCustomServerCore.API.Features.Round.Messages;
 using UncomplicatedCustomServerCore.API.Utilities;
 using UncomplicatedCustomServerCore.Extensions;
@@ -13,9 +17,6 @@ namespace UncomplicatedCustomServerCore.Events
     {
         public void OnEnabled()
         {
-            if (Plugin.Instance.Config.EnableModerationSystem)
-                EventHandler.Banned += OnBanned;
-
             if (Plugin.Instance.Config.EnablePlayerStatSystem)
                 EventHandler.Died += OnDied;
 
@@ -25,9 +26,6 @@ namespace UncomplicatedCustomServerCore.Events
 
         public void OnDisabled()
         {
-            if (Plugin.Instance.Config.EnableModerationSystem)
-                EventHandler.Banned -= OnBanned;
-
             if (Plugin.Instance.Config.EnablePlayerStatSystem)
                 EventHandler.Died -= OnDied;
 
@@ -40,6 +38,8 @@ namespace UncomplicatedCustomServerCore.Events
             if (ChangeDetector.RefPlayers.Count(p => p.SteamId == verified.Player.UserId) > 0)
                 return;
 
+            TimeManager.TryAdd(verified.Player);
+
             ChangeDetector.RefPlayers.Add(new(verified.Player));
         }
 
@@ -47,6 +47,7 @@ namespace UncomplicatedCustomServerCore.Events
         {
             new PlayerDisconnectMessage(left.Player.UserId).Send();
             ChangeDetector.RefPlayers.RemoveAll(p => p.SteamId == left.Player.UserId);
+            TimeManager.TryRemove(left.Player);
         }
 
         public void OnDied(DiedEventArgs died)
@@ -55,10 +56,30 @@ namespace UncomplicatedCustomServerCore.Events
             died.Player.AddDeath();
         }
 
-        public async void OnBanned(BannedEventArgs ev)
+        // Invoked by BanEventPatch [Patches]
+        public static void OnBanned(ReferenceHub issuer, ReferenceHub player, string reason, long duration)
         {
-            await Ban.Create(ev.Target, ev.Player, ev.Details.Reason, int.Parse((DateTimeOffset.Now.ToUnixTimeSeconds() - ev.Details.Expires).ToString())).Submit();
-            await Ban.Syncronize();
+            if (!Plugin.Instance.Config.EnableModerationSystem)
+                return;
+               
+            if (!Bucket.CanExecute($"_banEvent@{player.authManager.UserId}"))
+                return;
+
+            Task.Run(async delegate
+            {
+                try
+                {
+                    await Ban.Create(player, issuer, reason, uint.Parse(duration.ToString())).Submit();
+                    Log.Info("Ban submitted!");
+                    await Ban.Syncronize();
+                } 
+                catch (Exception e)
+                {
+                    Log.Error(e);
+                }
+
+                Bucket.ChronoRemove($"_banEvent@{player.authManager.UserId}");
+            });
         }
     }
 }

@@ -83,6 +83,7 @@
     <Compile Include="API\Features\Console\LogEntry.cs" />
     <Compile Include="API\Features\Endpoints.cs" />
     <Compile Include="API\Features\FeaturesManager.cs" />
+    <Compile Include="API\Features\Overflow\Bucket.cs" />
     <Compile Include="API\Features\PlayerStats\StatsTracker.cs" />
     <Compile Include="API\Features\PlayerStats\TimeManager.cs" />
     <Compile Include="API\Features\Round\Messages\MapUpdateMessage.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Integrations\UCR.cs" />
     <Compile Include="NET\Client.cs" />
     <Compile Include="NET\HttpServer.cs" />
+    <Compile Include="Patches\BanEventPatch.cs" />
     <Compile Include="Patches\PlayerEventPatch.cs" />
     <Compile Include="Patches\ServerConsoleLogs.cs" />
     <Compile Include="Patches\ServerNamePatch.cs" />

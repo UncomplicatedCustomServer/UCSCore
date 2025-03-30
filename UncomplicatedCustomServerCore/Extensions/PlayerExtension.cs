@@ -7,6 +7,9 @@ namespace UncomplicatedCustomServerCore.Extensions
     {
         public static void AddKill(this Player player)
         {
+            if (player.DoNotTrack)
+                return;
+
             if (StatsTracker.List.TryGetValue(player.UserId, out StatsTracker stats))
                 stats.Kills++;
             else
@@ -15,6 +18,9 @@ namespace UncomplicatedCustomServerCore.Extensions
 
         public static void AddDeath(this Player player)
         {
+            if (player.DoNotTrack)
+                return;
+
             if (StatsTracker.List.TryGetValue(player.UserId, out StatsTracker stats))
                 stats.Deaths++;
             else

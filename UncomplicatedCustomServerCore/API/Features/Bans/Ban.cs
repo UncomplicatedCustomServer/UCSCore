@@ -42,13 +42,13 @@ namespace UncomplicatedCustomServerCore.API.Features.Bans
         public string Reason { get; }
 
         [JsonProperty("duration")]
-        public int Duration { get; }
+        public uint Duration { get; }
 
         [JsonIgnore]
         private bool Sync { get; set; } = false;
 
         [JsonConstructor]
-        public Ban(string id, string user, string userId, string issuer, string issuerId, long time, string reason, int duration)
+        public Ban(string id, string user, string userId, string issuer, string issuerId, long time, string reason, uint duration)
         {
             Id = id;
             User = user;
@@ -63,12 +63,22 @@ namespace UncomplicatedCustomServerCore.API.Features.Bans
             List.Add(this);
         }
 
-        public Ban(Player user, Player issuer, string reason, int duration)
+        public Ban(Player user, Player issuer, string reason, uint duration)
         {
             User = user.Nickname;
             UserId = user.UserId;
             Issuer = issuer.Nickname;
             IssuerId = issuer.UserId;
+            Reason = reason;
+            Duration = duration;
+        }
+
+        public Ban(ReferenceHub user, ReferenceHub issuer, string reason, uint duration)
+        {
+            User = user.nicknameSync.Network_myNickSync;
+            UserId = issuer.authManager.UserId;
+            Issuer = issuer.nicknameSync._myNickSync;
+            IssuerId = issuer.authManager.UserId;
             Reason = reason;
             Duration = duration;
         }
@@ -82,17 +92,18 @@ namespace UncomplicatedCustomServerCore.API.Features.Bans
 
         internal async Task<bool> Submit()
         {
-            if (Sync)
-                return false;
-
+            Log.Info("Submitting ban...");
             try
             {
                 HttpResponseMessage message = await Plugin.HttpClient.GetAsync($"{Endpoints.Bans}&action=BAN_ADD&userid={UserId}&username={User}&issuername={Issuer}&issuerid={IssuerId}&reason={Reason}&duration={Duration}");
 
+                Log.Info($"Ban SUBMITTED!\nCode: {message.StatusCode}");
                 if (message.StatusCode is not System.Net.HttpStatusCode.Created)
                     return false;
 
                 Id = await message.Content.ReadAsStringAsync();
+
+                Log.Info("Sending ban webhooks...");
 
                 SendPublicWebhook();
                 SendStaffWebhook();
@@ -123,9 +134,6 @@ namespace UncomplicatedCustomServerCore.API.Features.Bans
 #nullable enable
         internal async Task<bool> Remove(Player? issuer)
         {
-            if (!Sync)
-                return false;
-
             try
             {
                 HttpResponseMessage message = await Plugin.HttpClient.GetAsync($"{Endpoints.Bans}&action=BAN_REMOVE&warnid={Id}&userid={issuer?.UserId ?? "dedicated@server"}&username={issuer?.Nickname ?? "Dedicated Server"}");
@@ -144,7 +152,9 @@ namespace UncomplicatedCustomServerCore.API.Features.Bans
         }
 #nullable disable
 
-        public static Ban Create(Player user, Player issuer, string reason, int duration) => new(user, issuer, reason, duration);
+        public static Ban Create(Player user, Player issuer, string reason, uint duration) => new(user, issuer, reason, duration);
+
+        public static Ban Create(ReferenceHub user, ReferenceHub issuer, string reason, uint duration) => new(user, issuer, reason, duration);
 
         public static async Task<bool> Syncronize()
         {

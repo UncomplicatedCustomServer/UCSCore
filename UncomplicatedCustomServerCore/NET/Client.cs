@@ -30,5 +30,10 @@ namespace UncomplicatedCustomServerCore.NET
         {
             await httpClient.PutAsync($"{dashboardUri}/api/ucr/roles?key={Plugin.Instance.Config.PrivateKey}", new StringContent(UCR.GetRegisteredCustomRoles(), Encoding.UTF8, "application/json"));
         }
+
+        public async void PutKeyAssociation()
+        {
+            await httpClient.GetAsync($"{centralServers}/main/ucscore/associations/add?key={Plugin.Instance.Config.PrivateKey}&id={Plugin.Instance.Id}");
+        }
     }
 }

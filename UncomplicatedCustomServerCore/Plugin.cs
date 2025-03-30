@@ -74,6 +74,8 @@ namespace UncomplicatedCustomServerCore
 
             Task.Run(() => HttpServer = new($"http://*:{Config.Port}/"));
 
+            Task.Run(Client.PutKeyAssociation);
+
             Task.Run(async delegate
             {
                 await Task.Delay(5000);

@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UncomplicatedCustomServerCore.API.Features.PlayerStats
 {
@@ -12,57 +10,44 @@ namespace UncomplicatedCustomServerCore.API.Features.PlayerStats
     {
         public static bool IsEnabled => Plugin.Instance.Config.EnablePlayerStatSystem;
 
-        public static int Interval => Plugin.Instance.Config.StatsPushInterval;
-
-        internal static bool IsAllowed { get; set; } = true;
-
         private static HttpClient HttpClient => Plugin.HttpClient;
 
-        public static async void Start()
-        {
-            while (IsEnabled && IsAllowed)
-            {
-                if (Player.List.Count > 0)
-                    await Request();
+        private static readonly Dictionary<string, long> Stopwatch = [];
 
-                await Task.Delay(Interval * 1000 * 60);
-            }
+        internal static void TryAdd(Player player)
+        {
+            if (!Stopwatch.ContainsKey(player.UserId))
+                Stopwatch.Add(player.UserId, DateTimeOffset.Now.ToUnixTimeSeconds());
         }
 
-        public static void Stop() => IsAllowed = false;
-
-        private static async Task<bool> Request()
+        public static async void TryRemove(Player player)
         {
+            if (player.IsNPC)
+                return;
+
+            if (!IsEnabled)
+                return;
+
             if (HttpClient is null)
                 throw new NullReferenceException();
 
+            if (!Stopwatch.TryGetValue(player.UserId, out long start))
+                return;
+
+            Stopwatch.Remove(player.UserId);
+
             try
             {
-                HttpResponseMessage response = await HttpClient.PostAsync($"{Endpoints.PlayerTime}&duration={Interval}", new StringContent(BuildPlayers(), Encoding.UTF8));
+                long time = DateTimeOffset.Now.ToUnixTimeSeconds() - start;
+                HttpResponseMessage response = await HttpClient.PutAsync($"{Endpoints.PlayerTime}&player={player.UserId}&time={time}", null);
 
                 if (response.StatusCode is not HttpStatusCode.NoContent)
-                {
                     Log.Error($"[STM] - Error code: {response.StatusCode}");
-                    return false;
-                }
-
-                return true;
             } 
             catch (Exception e)
             {
                 Log.Error(e);
-                return false;
             }
-        }
-
-        private static string BuildPlayers()
-        {
-            List<string> result = [];
-
-            foreach (Player player in Player.List)
-                result.Add(player.UserId);
-
-            return string.Join(Environment.NewLine, result);
         }
     }
 }

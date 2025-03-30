@@ -1,5 +1,4 @@
 ﻿using UncomplicatedCustomServerCore.API.Features.Bans;
-using UncomplicatedCustomServerCore.API.Features.PlayerStats;
 using UncomplicatedCustomServerCore.API.Features.Warns;
 using UncomplicatedCustomServerCore.API.Utilities;
 
@@ -14,9 +13,6 @@ namespace UncomplicatedCustomServerCore.API.Features
                 await Warn.Syncronize();
                 await Ban.Syncronize();
             }
-
-            if (Plugin.Instance.Config.EnablePlayerStatSystem)
-                TimeManager.Start();
 
             if (Plugin.Instance.Config.EnableRemoteConsoleSystem || Plugin.Instance.Config.EnableRemoteRoundViewSystem)
                 Plugin.SocketServer = new();
